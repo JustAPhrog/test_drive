@@ -105,7 +105,13 @@ var selectedIndex = 0;
   }
 }
 
-class FavoritesPage extends StatelessWidget {
+class FavoritesPage extends StatefulWidget {
+  @override
+  State<FavoritesPage> createState() => _FavoritesPageState();
+}
+
+class _FavoritesPageState extends State<FavoritesPage> {
+
   @override
   Widget build(BuildContext context){
     var appstate = context.watch<MyAppState>();
@@ -124,16 +130,61 @@ class FavoritesPage extends StatelessWidget {
             Padding(padding: const EdgeInsets.all(20), child: Text('You have ${appstate.favorites.length} favorites:'),),
             SizedBox(width: 10),
             for (var msg in messages)
-              ListTile(
-                title: Text(msg.asPascalCase),
-                leading: Icon(Icons.heart_broken),
-                onTap: () {
-                  appstate.toggleFavorite(msg);
-                },
-              )
+              FavoriteTile(msg: msg)
           ],
         )
       ],
+    );
+  }
+}
+
+class FavoriteTile extends StatefulWidget {
+  const FavoriteTile({
+    super.key,
+    required this.msg,
+  });
+
+  final WordPair msg;
+
+  @override
+  State<FavoriteTile> createState() => _FavoriteTileState();
+}
+
+class _FavoriteTileState extends State<FavoriteTile> {
+  bool isHovering = false;
+    
+  @override
+  Widget build(BuildContext context) {
+    var appstate = context.watch<MyAppState>();
+
+    // return ListTile(
+    //   title: Text(widget.msg.asPascalCase),
+    //   leading: Icon(Icons.favorite),
+    //   onTap: () {
+    //     appstate.toggleFavorite(widget.msg);
+    //   },
+    // );
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Row(
+        // mainAxisSize: MainAxisSize.min,
+        children: [
+          InkWell(
+            onHover: (hovering) {
+              setState(() {
+                isHovering = hovering;
+              });
+            },
+            onTap: () {
+              appstate.toggleFavorite(widget.msg);
+            },
+            borderRadius: BorderRadius.circular(20),
+            child: Icon(isHovering ? Icons.heart_broken : Icons.favorite,),
+          ),
+          SizedBox(width: 10,),
+          Text(widget.msg.asPascalCase),
+        ],
+      ),
     );
   }
 }
