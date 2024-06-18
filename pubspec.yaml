@@ -1,9 +1,9 @@
-name: namer_app
+name: test_drive
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 0.0.1+1
+version: 1.0.1+1
 
 environment:
   sdk: ^3.1.1
@@ -20,6 +20,7 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  test: ^1.25.2
 
 flutter:
   uses-material-design: true
